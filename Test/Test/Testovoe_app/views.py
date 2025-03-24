@@ -18,4 +18,4 @@ def html_display(x):
 
 def ui_display(x):
     message = database.objects.all()
-    return render(x, "UI.html",{"x":l})
+    return render(x, "UI.html",{"x": message})

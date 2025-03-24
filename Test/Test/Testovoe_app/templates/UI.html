@@ -1,11 +1,18 @@
 {% extends "index.html" %}
 {% block content %}
-<ul>
-  {% for i in x%}
-  <li>
-    <h1>{{i.title}}</h1>
-    <p>{{i.content}}</p>
-  </li>
-  {% endfor %}
-</ul>
+    <h1 style="color: #283593;">Список криптовалют</h1>
+
+    {% for i in x %}
+    <div class="crypto-card">
+        <h2>{{ i.title }}</h2>
+        <p>{{ i.content }}</p>
+        {% if i.created_at %}
+        <small style="color: #666;">Добавлено: {{ i.created_at|date:"d.m.Y" }}</small>
+        {% endif %}
+    </div>
+    {% empty %}
+    <div class="crypto-card">
+        <p>Нет данных о криптовалютах</p>
+    </div>
+    {% endfor %}
 {% endblock %}
