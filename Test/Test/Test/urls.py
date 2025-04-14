@@ -21,10 +21,12 @@ from django.urls import path
 from Testovoe_app.views import ui_display
 from Testovoe_app.views import html_display
 from Testovoe_app.views import small_heading
+from Testovoe_app.views import postF
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test_page/', html_display),
     path('test_blog/', small_heading),
-    path('test_UI/', ui_display)
+    path('test_UI/', ui_display),
+    path('kek/<int:post_id>/', postF, name="post")
 ]

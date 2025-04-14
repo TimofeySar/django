@@ -19,3 +19,7 @@ def html_display(x):
 def ui_display(x):
     message = database.objects.all()
     return render(x, "UI.html",{"x": message})
+
+def postF(x, post_id):
+    post = database.objects.get(pk=post_id)
+    return render (x, 'pipi.html', {post:post})
