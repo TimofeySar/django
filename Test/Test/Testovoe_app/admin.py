@@ -1,9 +1,24 @@
 from django.contrib import admin
-from .models import *
+from .models import Cryptocurrency, Category
 
-class databaseadmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
-    list_display_links = ('id', 'title')
-    search_fields = ('id', 'title')
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
 
-admin.site.register(database, databaseadmin)
+@admin.register(Cryptocurrency)
+class CryptocurrencyAdmin(admin.ModelAdmin):
+    list_display = ('title', 'symbol', 'price', 'market_cap', 'is_active')
+    list_filter = ('category', 'is_active')
+    search_fields = ('title', 'symbol')
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'symbol', 'content', 'category')
+        }),
+        ('Финансовые показатели', {
+            'fields': ('price', 'market_cap', 'volume_24h')
+        }),
+        ('Статус', {
+            'fields': ('is_active',)
+        }),
+    )

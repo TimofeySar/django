@@ -1,0 +1,80 @@
+{% extends "Testovoe_app/index.html" %}
+
+{% block title %}{{ crypto.title }} ({{ crypto.symbol }}){% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h1 class="display-5">
+                {{ crypto.title }} <small class="text-light">{{ crypto.symbol }}</small>
+            </h1>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Информация</h3>
+                    <p class="lead">{{ crypto.content }}</p>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">Финансовые данные</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <strong>Цена:</strong> ${{ crypto.price }}
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Капитализация:</strong> ${{ crypto.market_cap }}
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Объем (24ч):</strong> ${{ crypto.volume_24h }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Дополнительно</h4>
+                            {% if crypto.category %}
+                            <p>
+                                <strong>Категория:</strong>
+                                <a href="{% url 'category_view' crypto.category.id %}" class="badge bg-info text-dark">
+                                    {{ crypto.category.name }}
+                                </a>
+                            </p>
+                            {% endif %}
+
+                            <p>
+                                <strong>Статус:</strong>
+                                <span class="badge bg-{% if crypto.is_active %}success{% else %}danger{% endif %}">
+                                    {% if crypto.is_active %}Активна{% else %}Неактивна{% endif %}
+                                </span>
+                            </p>
+
+                            <p>
+                                <strong>Добавлена:</strong>
+                                {{ crypto.created_at|date:"d.m.Y" }}
+                            </p>
+
+                            <p>
+                                <strong>Обновлена:</strong>
+                                {{ crypto.updated_at|date:"d.m.Y H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-muted">
+            <a href="{% url 'home' %}" class="btn btn-secondary">
+                ← Назад к списку
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

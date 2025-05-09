@@ -1,0 +1,52 @@
+{% extends "Testovoe_app/index.html" %}
+
+{% block title %}Список криптовалют{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Категории
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'home' %}" class="list-group-item list-group-item-action {% if not current_category %}active{% endif %}">
+                    Все категории
+                </a>
+                {% for cat in categories %}
+                <a href="{% url 'category_view' cat.id %}"
+                   class="list-group-item list-group-item-action {% if current_category and current_category.id == cat.id %}active{% endif %}">
+                    {{ cat.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <h2>{% if current_category %}{{ current_category.name }}{% else %}Все криптовалюты{% endif %}</h2>
+
+        <div class="row">
+            {% for crypto in cryptocurrencies %}
+            <div class="col-md-6">
+                <div class="card crypto-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'cryptocurrency_detail' crypto.pk %}">
+                                {{ crypto.title }} ({{ crypto.symbol }})
+                            </a>
+                        </h5>
+                        <p class="card-text">{{ crypto.content|truncatechars:100 }}</p>
+                        <p class="text-success">${{ crypto.price }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">Криптовалют не найдено</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

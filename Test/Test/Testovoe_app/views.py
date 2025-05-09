@@ -1,25 +1,25 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from pyexpat.errors import messages
+from django.shortcuts import render, get_object_or_404
+from .models import Cryptocurrency, Category
 
-from .models import *
+def home(request):
+    categories = Category.objects.all()
+    cryptocurrencies = Cryptocurrency.objects.filter(is_active=True)
+    return render(request, 'Testovoe_app/crypto_list.html', {
+        'cryptocurrencies': cryptocurrencies,
+        'categories': categories
+    })
 
-def big_heading(x):
-    return HttpResponse("<h1>big heading</h1>")
+def cryptocurrency_detail(request, pk):
+    crypto = get_object_or_404(Cryptocurrency, pk=pk, is_active=True)
+    return render(request, 'Testovoe_app/crypto_detail.html', {'crypto': crypto})
+def about(request):
+    return render(request, 'Testovoe_app/about.html')
 
-def small_heading(x):
-    return HttpResponse("<h2>small heading</h2>")
-
-l = ["hello", "world"]
-
-def html_display(x):
-    message = database.objects.all()
-    return render(x, "index.html")
-
-def ui_display(x):
-    message = database.objects.all()
-    return render(x, "UI.html",{"x": message})
-
-def postF(x, post_id):
-    post = database.objects.get(pk=post_id)
-    return render (x, 'pipi.html', {post:post})
+def category_view(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    cryptos = Cryptocurrency.objects.filter(category=category, is_active=True)
+    return render(request, 'Testovoe_app/crypto_list.html', {
+        'cryptocurrencies': cryptos,
+        'current_category': category,
+        'categories': Category.objects.all()
+    })
