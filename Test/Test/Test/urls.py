@@ -8,6 +8,7 @@ from Testovoe_app.views import (
 )
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('crypto/<int:pk>/', cryptocurrency_detail, name='cryptocurrency_detail'),
     path('category/<int:category_id>/', category_view, name='category_view'),
